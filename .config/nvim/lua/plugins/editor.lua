@@ -173,6 +173,12 @@ return {
 				mappings = {
 					n = {},
 				},
+				file_ignore_patterns = {
+					"node_modules",
+					".git",
+					"dist",
+					"build",
+				},
 			})
 			opts.pickers = {
 				diagnostics = {
