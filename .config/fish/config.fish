@@ -41,6 +41,7 @@ alias de "docker exec -it"
 alias drm "docker rm -f"
 alias dr "docker restart"
 alias drma "docker rm -f (docker ps -aq)"
+alias dlf "docker logs -f"
 
 command -qv nvim && alias vim nvim
 
@@ -59,6 +60,14 @@ set -gx PATH node_modules/.bin $PATH
 set -g GOPATH $HOME/go
 set -gx PATH $GOPATH/bin $PATH
 
+# ❯ echo 'export PATH="/opt/homebrew/opt/dotnet@8/bin:$PATH"' >> ~/.zshrc
+set -gx PATH /opt/homebrew/opt/dotnet@8/bin $PATH
+set -gx PATH /opt/homebrew/opt/dotnet@6/bin $PATH
+set -Ux JAVA_HOME (/opt/homebrew/bin/brew --prefix openjdk)
+set -Ux PATH $JAVA_HOME/bin $PATH
+set -Ux XDG_CONFIG_HOME $HOME/.config
+
+
 switch (uname)
     case Darwin
         source (dirname (status --current-filename))/config-osx.fish
@@ -73,10 +82,17 @@ if test -f $LOCAL_CONFIG
     source $LOCAL_CONFIG
 end
 
+# Load all aliases from aliases folder
+set ALIASES_DIR (dirname (status --current-filename))/aliases
+if test -d $ALIASES_DIR
+    for file in $ALIASES_DIR/*.fish
+        source $file
+    end
+end
+
 # fish config
 if status is-interactive
     and not set -q TMUX
     # exec tmux
 end
 clear
-

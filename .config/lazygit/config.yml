@@ -5,3 +5,12 @@ customCommands:
     context: "files"
     loadingText: "opening commitizen commit tool"
     subprocess: true
+  - key: "F"
+    context: "localBranches"
+    description: "🪵 Show commits in selected branch not in current"
+    command: "git log HEAD..{{.SelectedLocalBranch.Name}} --oneline"
+    output: "terminal"
+  - key: "<c-f>"
+    context: "localBranches"
+    description: "Copy commits in selected branch not in current"
+    command: "git log {{.SelectedLocalBranch.Name}} --not HEAD --pretty='%H %P' --reverse | awk 'NF==2 { print $1 } NF>2 { exit }' | paste -sd ' ' - | pbcopy"
